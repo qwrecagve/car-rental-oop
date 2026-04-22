@@ -1,47 +1,32 @@
-from models.car import Car
-from models.customer import Customer
-
-
 class RentalService:
     def __init__(self):
         self.cars = []
         self.customers = []
 
-    def add_car(self, car: Car):
+    def add_car(self, car):
         self.cars.append(car)
 
-    def list_available_cars(self):
-        return [car for car in self.cars if car.is_available]
+    def add_customer(self, customer):
+        self.customers.append(customer)
 
-    def find_car_by_id(self, car_id):
+    def find_car(self, car_id):
         for car in self.cars:
             if car.car_id == car_id:
                 return car
-        return None
+        raise Exception("Mashina topilmadi!")
 
-    def add_customer(self, customer: Customer):
-        self.customers.append(customer)
-
-    def find_customer_by_id(self, customer_id):
+    def find_customer(self, cid):
         for c in self.customers:
-            if c.customer_id == customer_id:
+            if c.customer_id == cid:
                 return c
-        return None
+        raise Exception("Mijoz topilmadi!")
 
-    def rent_car(self, customer_id, car_id):
-        customer = self.find_customer_by_id(customer_id)
-        car = self.find_car_by_id(car_id)
+    def rent_car(self, cid, car_id, days):
+        car = self.find_car(car_id)
+        customer = self.find_customer(cid)
+        customer.rent_car(car, days)
 
-        if not customer or not car:
-            raise Exception("Mijoz yoki mashina topilmadi!")
-
-        customer.rent_car(car)
-
-    def return_car(self, customer_id, car_id):
-        customer = self.find_customer_by_id(customer_id)
-        car = self.find_car_by_id(car_id)
-
-        if not customer or not car:
-            raise Exception("Xatolik!")
-
+    def return_car(self, cid, car_id):
+        car = self.find_car(car_id)
+        customer = self.find_customer(cid)
         customer.return_car(car)

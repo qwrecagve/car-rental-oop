@@ -4,13 +4,13 @@ class Customer:
         self.name = name
         self.rented_cars = []
 
-    def rent_car(self, car):
-        car.rent()
+    def rent_car(self, car, days):
+        car.rent(self, days)
         self.rented_cars.append(car)
 
     def return_car(self, car):
         if car not in self.rented_cars:
-            raise Exception("Bu mashina sizga tegishli emas!")
+            raise Exception("Bu mashina sizda yo‘q!")
         car.return_car()
         self.rented_cars.remove(car)
 
